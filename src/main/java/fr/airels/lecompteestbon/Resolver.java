@@ -14,7 +14,7 @@ public class Resolver {
             List<Integer> numbersToUse = new ArrayList<>(numbers);
             resultOperation = 0;
 
-            steps.add(i + " try");
+            steps.add("Try n°" + i);
 
             while (resultOperation != result && numbersToUse.size() > 1) {
                 int[] indexNumbers = randomPick(numbersToUse);
