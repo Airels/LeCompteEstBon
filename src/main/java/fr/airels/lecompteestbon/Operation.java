@@ -27,7 +27,7 @@ public class Operation {
         int result;
         String operandUsed;
 
-        OperationResult(int result, String operandUsed) {
+        private OperationResult(int result, String operandUsed) {
             this.result = result;
             this.operandUsed = operandUsed;
         }
