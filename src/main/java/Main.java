@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        int result = 732;
-        List<Integer> numbers = new ArrayList<>(Arrays.asList(2, 25, 4, 10, 7, 6));
+        int result = 531;
+        List<Integer> numbers = new ArrayList<>(Arrays.asList(80, 2, 13, 11, 25, 3));
 
         List<String> operationsMade = Resolver.resolve(result, numbers);
 
