@@ -5,20 +5,32 @@ import java.util.List;
 
 public class Resolver {
 
-    public static List<String> resolve(int result, List<Integer> numbersToUse) {
+    public static List<String> resolve(int result, List<Integer> numbers) {
         List<String> steps = new ArrayList<>();
 
         int resultOperation = 0;
 
-        while (resultOperation != result) {
-            int[] indexNumbers = randomPick(numbersToUse);
-            int a = indexNumbers[0];
-            int b = indexNumbers[1];
+        for (int i = 0; resultOperation != result; i++) {
+            List<Integer> numbersToUse = new ArrayList<>(numbers);
+            resultOperation = 0;
 
-            Operation.OperationResult c = Operation.randomCalc(a, b);
-            resultOperation = c.result;
+            while (resultOperation != result && numbersToUse.size() > 1) {
+                int[] indexNumbers = randomPick(numbersToUse);
+                int a = numbersToUse.get(indexNumbers[0]);
+                int b = numbersToUse.get(indexNumbers[1]);
 
-            steps.add(a + c.operandUsed + b + " = " + c.result);
+                Operation.OperationResult c = Operation.randomCalc(a, b);
+                resultOperation = c.result;
+
+                steps.add(a + c.operandUsed + b + " = " + c.result);
+
+                numbersToUse.remove(Integer.valueOf(a));
+                numbersToUse.remove(Integer.valueOf(b));
+                numbersToUse.add(resultOperation);
+            }
+
+            steps.add(Integer.toString(i));
+            steps.add("");
         }
 
         return steps;

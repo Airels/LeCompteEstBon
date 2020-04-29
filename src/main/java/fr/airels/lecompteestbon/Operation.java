@@ -11,7 +11,8 @@ public class Operation {
                 if (a != 1 && b != 1) return new OperationResult(a*b, "*");
                 break;
             case 3:
-                if (a%b == 0) return new OperationResult(a/b, "/");
+                if (b != 0 && a%b == 0)
+                    return new OperationResult(a/b, "/");
                 break;
         }
 
