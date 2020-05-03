@@ -44,4 +44,12 @@ public class Couple {
     public boolean isDivisible() {
         return (number1%number2 == 0) || (number2%number1 == 0);
     }
+
+    public int getNumber1() {
+        return number1;
+    }
+
+    public int getNumber2() {
+        return number2;
+    }
 }
