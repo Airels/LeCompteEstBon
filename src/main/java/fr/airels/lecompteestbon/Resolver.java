@@ -50,9 +50,25 @@ public class Resolver {
 
     public static List<String> recursiveResolve(int result, List<Integer> numbers) {
         List<String> steps = new ArrayList<>();
+        List<Couple> couples = new ArrayList<>();
 
+        for (int i = 0; i < numbers.size()-1; i++) {
+            for (int j = i+1; j < numbers.size(); j++) {
+                couples.add(new Couple(numbers.get(i)));
+            }
+        }
 
+        List<Integer> resultsOfPlates = new ArrayList<>();
+        for (Couple couple : couples) {
+
+        }
 
         return steps;
+    }
+
+    private static void auxRecursiveResolve(int result, List<Couple> couples) {
+        for (Couple couple : couples) {
+            int result =
+        }
     }
 }

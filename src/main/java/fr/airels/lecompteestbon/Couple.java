@@ -2,10 +2,10 @@ package fr.airels.lecompteestbon;
 
 import fr.airels.lecompteestbon.exceptions.NonIntegerValueException;
 
-public class Plate {
+public class Couple {
     private int number1, number2;
 
-    public Plate(int n1, int n2) {
+    public Couple(int n1, int n2) {
         number1 = n1;
         number2 = n2;
     }
@@ -38,5 +38,9 @@ public class Plate {
         if (number2 % number1 == 0) return number2/number1;
 
         throw new NonIntegerValueException("Quotient of operation isn't an Integer");
+    }
+
+    public boolean isDivisible() {
+        return (number1%number2 == 0) || (number2%number1 == 0);
     }
 }
