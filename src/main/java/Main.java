@@ -11,7 +11,8 @@ public class Main {
         System.out.println("Result to find ?");
         int result = Integer.parseInt(reader.nextLine());
 
-        System.out.println("\nWhat numbers to use to resolve result ? (spaced with space, 6 numbers to respect TV show rules)");
+        // To respect TV show: 6 numbers, 9 first numbers, + 10, 25, 50, 75 and 100
+        System.out.println("\nWhat numbers to use to resolve result ? (spaced with space)");
         String numbersEntered = reader.nextLine();
         List<Integer> numbers = new ArrayList<>();
         for (String number : numbersEntered.split(" "))
