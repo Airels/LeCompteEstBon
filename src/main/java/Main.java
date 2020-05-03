@@ -29,7 +29,10 @@ public class Main {
 
         int result = 663;
         List<Integer> numbers = new ArrayList<>(Arrays.asList(50, 25, 3, 9, 4, 1));
+        List<String> operationsMade = Resolver.recursiveResolve(result, numbers);
 
-        Resolver.recursiveResolve(result, numbers);
+        for (String operationMade : operationsMade) {
+            System.out.println(operationMade);
+        }
     }
 }

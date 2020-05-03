@@ -2,6 +2,7 @@ package fr.airels.lecompteestbon;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Resolver {
@@ -51,12 +52,12 @@ public class Resolver {
 
     public static List<String> recursiveResolve(int result, List<Integer> numbers) {
         List<String> steps = new ArrayList<>();
-        if (auxRecursiveResolve(result, numbers)) System.out.println("RESULT FOUND");
-        else System.out.println("NO RESULT FOUND");
+        if (!auxRecursiveResolve(result, numbers, steps)) steps.add("No result found");
+        Collections.reverse(steps);
         return steps;
     }
 
-    private static boolean auxRecursiveResolve(int result, List<Integer> numbers) {
+    private static boolean auxRecursiveResolve(int result, List<Integer> numbers, List<String> steps) {
         if (numbers.size() == 1) return false;
 
         List<Integer> initialNumbers = new ArrayList<>(numbers);
@@ -71,30 +72,66 @@ public class Resolver {
 
                 // Addition
                 copiedNumbers = new ArrayList<>(numbers);
-                if (couple.getAddition() == result) return true;
+                if (couple.getAddition() == result) {
+                    steps.add(couple.getNumber1() + " + " + couple.getNumber2() + " = " + couple.getAddition());
+                    return true;
+                }
                 copiedNumbers.add(couple.getAddition());
-                if (auxRecursiveResolve(result, copiedNumbers)) return true;
+                if (auxRecursiveResolve(result, copiedNumbers, steps)) {
+                    steps.add(couple.getNumber1() + " + " + couple.getNumber2() + " = " + couple.getAddition());
+                    return true;
+                }
 
                 // Substraction
                 copiedNumbers = new ArrayList<>(numbers);
-                if (couple.getSubstraction() == result) return true;
+                if (couple.getSubstraction() == result) {
+                    if (couple.getNumber1() > couple.getNumber2())
+                        steps.add(couple.getNumber1() + " - " + couple.getNumber2() + " = " + couple.getSubstraction());
+                    else
+                        steps.add(couple.getNumber2() + " - " + couple.getNumber1() + " = " + couple.getSubstraction());
+                    return true;
+                }
                 if (couple.getSubstraction() != 0) {
                     copiedNumbers.add(couple.getSubstraction());
-                    if (auxRecursiveResolve(result, copiedNumbers)) return true;
+                    if (auxRecursiveResolve(result, copiedNumbers, steps)) {
+                        if (couple.getNumber1() > couple.getNumber2())
+                            steps.add(couple.getNumber1() + " - " + couple.getNumber2() + " = " + couple.getSubstraction());
+                        else
+                            steps.add(couple.getNumber2() + " - " + couple.getNumber1() + " = " + couple.getSubstraction());
+                        return true;
+                    }
                 }
 
                 // Multiplication
                 copiedNumbers = new ArrayList<>(numbers);
-                if (couple.getMultiplication() == result) return true;
+                if (couple.getMultiplication() == result) {
+                    steps.add(couple.getNumber1() + " x " + couple.getNumber2() + " = " + couple.getMultiplication());
+                    return true;
+                }
                 copiedNumbers.add(couple.getMultiplication());
-                if (auxRecursiveResolve(result, copiedNumbers)) return true;
+                if (auxRecursiveResolve(result, copiedNumbers, steps)) {
+                    steps.add(couple.getNumber1() + " x " + couple.getNumber2() + " = " + couple.getMultiplication());
+                    return true;
+                }
 
                 // Division
                 copiedNumbers = new ArrayList<>(numbers);
                 if (!couple.isDivisible()) continue;
-                if (couple.getDivision() == result) return true;
+                if (couple.getDivision() == result) {
+                    if (couple.getNumber1() > couple.getNumber2())
+                        steps.add(couple.getNumber1() + " / " + couple.getNumber2() + " = " + couple.getDivision());
+                    else
+                        steps.add(couple.getNumber2() + " / " + couple.getNumber1() + " = " + couple.getDivision());
+                    return true;
+                }
                 copiedNumbers.add(couple.getDivision());
-                if (auxRecursiveResolve(result, copiedNumbers)) return true;
+                if (auxRecursiveResolve(result, copiedNumbers, steps)) {
+                    if (couple.getNumber1() > couple.getNumber2())
+                        steps.add(couple.getNumber1() + " / " + couple.getNumber2() + " = " + couple.getDivision());
+                    else
+                        steps.add(couple.getNumber2() + " / " + couple.getNumber1() + " = " + couple.getDivision());
+                    return true;
+                }
 
                 numbers = initialNumbers;
             }
