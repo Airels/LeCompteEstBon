@@ -6,6 +6,13 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
+
+        /*
+            If you want to respect TV Show Rules:
+                - You must enter a result between 0-999
+                - Only 6 numbers to use, which includes :
+                    - 0-9 numbers, + 10, 25, 50, 75, 100 only
+         */
         int result = 663;
         List<Integer> numbers = new ArrayList<>(Arrays.asList(50, 25, 3, 9, 4, 1));
 
