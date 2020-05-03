@@ -28,16 +28,17 @@ public class Couple {
         return number1*number2;
     }
 
-    public int getDivision() throws NonIntegerValueException {
+    public int getDivision() {
         if (number1 % number2 == 0) return number1/number2;
 
         return reverseDivision();
     }
 
-    private int reverseDivision() throws NonIntegerValueException {
+    private int reverseDivision() {
         if (number2 % number1 == 0) return number2/number1;
 
-        throw new NonIntegerValueException("Quotient of operation isn't an Integer");
+        // throw new NonIntegerValueException("Quotient of operation isn't an Integer");
+        return 0;
     }
 
     public boolean isDivisible() {
