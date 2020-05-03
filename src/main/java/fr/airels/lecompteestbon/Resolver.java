@@ -73,31 +73,25 @@ public class Resolver {
                 // Addition
                 copiedNumbers = new ArrayList<>(numbers);
                 if (couple.getAddition() == result) {
-                    steps.add(couple.getNumber1() + " + " + couple.getNumber2() + " = " + couple.getAddition());
+                    addStep(steps, couple, 0);
                     return true;
                 }
                 copiedNumbers.add(couple.getAddition());
                 if (auxRecursiveResolve(result, copiedNumbers, steps)) {
-                    steps.add(couple.getNumber1() + " + " + couple.getNumber2() + " = " + couple.getAddition());
+                    addStep(steps, couple, 0);
                     return true;
                 }
 
                 // Substraction
                 copiedNumbers = new ArrayList<>(numbers);
                 if (couple.getSubstraction() == result) {
-                    if (couple.getNumber1() > couple.getNumber2())
-                        steps.add(couple.getNumber1() + " - " + couple.getNumber2() + " = " + couple.getSubstraction());
-                    else
-                        steps.add(couple.getNumber2() + " - " + couple.getNumber1() + " = " + couple.getSubstraction());
+                    addStep(steps, couple, 1);
                     return true;
                 }
                 if (couple.getSubstraction() != 0) {
                     copiedNumbers.add(couple.getSubstraction());
                     if (auxRecursiveResolve(result, copiedNumbers, steps)) {
-                        if (couple.getNumber1() > couple.getNumber2())
-                            steps.add(couple.getNumber1() + " - " + couple.getNumber2() + " = " + couple.getSubstraction());
-                        else
-                            steps.add(couple.getNumber2() + " - " + couple.getNumber1() + " = " + couple.getSubstraction());
+                        addStep(steps, couple, 1);
                         return true;
                     }
                 }
@@ -105,32 +99,27 @@ public class Resolver {
                 // Multiplication
                 copiedNumbers = new ArrayList<>(numbers);
                 if (couple.getMultiplication() == result) {
-                    steps.add(couple.getNumber1() + " x " + couple.getNumber2() + " = " + couple.getMultiplication());
+                    addStep(steps, couple, 2);
                     return true;
                 }
                 copiedNumbers.add(couple.getMultiplication());
                 if (auxRecursiveResolve(result, copiedNumbers, steps)) {
-                    steps.add(couple.getNumber1() + " x " + couple.getNumber2() + " = " + couple.getMultiplication());
+                    addStep(steps, couple, 2);
                     return true;
                 }
 
                 // Division
-                copiedNumbers = new ArrayList<>(numbers);
-                if (!couple.isDivisible()) continue;
-                if (couple.getDivision() == result) {
-                    if (couple.getNumber1() > couple.getNumber2())
-                        steps.add(couple.getNumber1() + " / " + couple.getNumber2() + " = " + couple.getDivision());
-                    else
-                        steps.add(couple.getNumber2() + " / " + couple.getNumber1() + " = " + couple.getDivision());
-                    return true;
-                }
-                copiedNumbers.add(couple.getDivision());
-                if (auxRecursiveResolve(result, copiedNumbers, steps)) {
-                    if (couple.getNumber1() > couple.getNumber2())
-                        steps.add(couple.getNumber1() + " / " + couple.getNumber2() + " = " + couple.getDivision());
-                    else
-                        steps.add(couple.getNumber2() + " / " + couple.getNumber1() + " = " + couple.getDivision());
-                    return true;
+                if (couple.isDivisible()) {
+                    copiedNumbers = new ArrayList<>(numbers);
+                    if (couple.getDivision() == result) {
+                        addStep(steps, couple, 3);
+                        return true;
+                    }
+                    copiedNumbers.add(couple.getDivision());
+                    if (auxRecursiveResolve(result, copiedNumbers, steps)) {
+                        addStep(steps, couple, 3);
+                        return true;
+                    }
                 }
 
                 numbers = initialNumbers;
@@ -138,5 +127,36 @@ public class Resolver {
         }
 
         return false;
+    }
+
+    /*
+        0 = +,
+        1 = -,
+        2 = *,
+        3 = /
+     */
+    private static void addStep(List<String> steps, Couple couple, int operation) {
+        switch (operation) {
+            case 0:
+                steps.add(couple.getNumber1() + " + " + couple.getNumber2() + " = " + couple.getAddition());
+                break;
+            case 1:
+                if (couple.getNumber1() > couple.getNumber2())
+                    steps.add(couple.getNumber1() + " - " + couple.getNumber2() + " = " + couple.getSubstraction());
+
+                steps.add(couple.getNumber2() + " - " + couple.getNumber1() + " = " + couple.getSubstraction());
+                break;
+            case 2:
+                steps.add(couple.getNumber1() + " x " + couple.getNumber2() + " = " + couple.getMultiplication());
+                break;
+            case 3:
+                if (couple.getNumber1() > couple.getNumber2())
+                    steps.add(couple.getNumber1() + " / " + couple.getNumber2() + " = " + couple.getDivision());
+
+                steps.add(couple.getNumber2() + " / " + couple.getNumber1() + " = " + couple.getDivision());
+                break;
+            default:
+                throw new RuntimeException("Unknown operation " + operation);
+        }
     }
 }
