@@ -70,12 +70,29 @@ public class Resolver {
                 numbers.remove(i);
                 numbers.remove(j-1);
 
-                // Addition
-                copiedNumbers = new ArrayList<>(numbers);
+                // Result verification
                 if (couple.getAddition() == result) {
                     addStep(steps, couple, 0);
                     return true;
                 }
+                if (couple.getSubstraction() == result) {
+                    addStep(steps, couple, 1);
+                    return true;
+                }
+                if (couple.getMultiplication() == result) {
+                    addStep(steps, couple, 2);
+                    return true;
+                }
+                if (couple.isDivisible() && couple.getDivision() == result) {
+                    addStep(steps, couple, 3);
+                    return true;
+                }
+
+
+                // Calculations
+
+                // Addition
+                copiedNumbers = new ArrayList<>(numbers);
                 copiedNumbers.add(couple.getAddition());
                 if (auxRecursiveResolve(result, copiedNumbers, steps)) {
                     addStep(steps, couple, 0);
@@ -84,10 +101,6 @@ public class Resolver {
 
                 // Substraction
                 copiedNumbers = new ArrayList<>(numbers);
-                if (couple.getSubstraction() == result) {
-                    addStep(steps, couple, 1);
-                    return true;
-                }
                 if (couple.getSubstraction() != 0) {
                     copiedNumbers.add(couple.getSubstraction());
                     if (auxRecursiveResolve(result, copiedNumbers, steps)) {
@@ -98,10 +111,6 @@ public class Resolver {
 
                 // Multiplication
                 copiedNumbers = new ArrayList<>(numbers);
-                if (couple.getMultiplication() == result) {
-                    addStep(steps, couple, 2);
-                    return true;
-                }
                 copiedNumbers.add(couple.getMultiplication());
                 if (auxRecursiveResolve(result, copiedNumbers, steps)) {
                     addStep(steps, couple, 2);
@@ -111,10 +120,6 @@ public class Resolver {
                 // Division
                 if (couple.isDivisible()) {
                     copiedNumbers = new ArrayList<>(numbers);
-                    if (couple.getDivision() == result) {
-                        addStep(steps, couple, 3);
-                        return true;
-                    }
                     copiedNumbers.add(couple.getDivision());
                     if (auxRecursiveResolve(result, copiedNumbers, steps)) {
                         addStep(steps, couple, 3);
@@ -147,13 +152,16 @@ public class Resolver {
                 steps.add(couple.getNumber2() + " - " + couple.getNumber1() + " = " + couple.getSubstraction());
                 break;
             case 2:
-                steps.add(couple.getNumber1() + " x " + couple.getNumber2() + " = " + couple.getMultiplication());
+                if (couple.getNumber1() != 1 && couple.getNumber2() != 1)
+                    steps.add(couple.getNumber1() + " x " + couple.getNumber2() + " = " + couple.getMultiplication());
                 break;
             case 3:
-                if (couple.getNumber1() > couple.getNumber2())
-                    steps.add(couple.getNumber1() + " / " + couple.getNumber2() + " = " + couple.getDivision());
+                if (couple.getNumber1() != 1 && couple.getNumber2() != 1) {
+                    if (couple.getNumber1() > couple.getNumber2())
+                        steps.add(couple.getNumber1() + " / " + couple.getNumber2() + " = " + couple.getDivision());
 
-                steps.add(couple.getNumber2() + " / " + couple.getNumber1() + " = " + couple.getDivision());
+                    steps.add(couple.getNumber2() + " / " + couple.getNumber1() + " = " + couple.getDivision());
+                }
                 break;
             default:
                 throw new RuntimeException("Unknown operation " + operation);
