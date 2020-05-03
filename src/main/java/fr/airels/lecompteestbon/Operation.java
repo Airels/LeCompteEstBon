@@ -19,7 +19,12 @@ public class Operation {
         return randomCalc(a, b);
     }
 
-    // 0 = +, 1 = -, 2 = *, 3 = /
+    /*
+        0 = +,
+        1 = -,
+        2 = *,
+        3 = /
+     */
     private static int getOperation() {
         return (int) (Math.random() * 4);
     }
