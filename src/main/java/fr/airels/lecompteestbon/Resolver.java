@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Resolver {
 
-    public static List<String> resolve(int result, List<Integer> numbers) {
+    public static List<String> naiveResolve(int result, List<Integer> numbers) {
         List<String> steps = new ArrayList<>();
 
         int resultOperation = 0;
@@ -45,5 +45,14 @@ public class Resolver {
         } while (indexA == indexB);
 
         return new int[]{indexA, indexB};
+    }
+
+
+    public static List<String> recursiveResolve(int result, List<Integer> numbers) {
+        List<String> steps = new ArrayList<>();
+
+
+
+        return steps;
     }
 }
