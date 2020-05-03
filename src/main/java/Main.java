@@ -1,11 +1,12 @@
 import fr.airels.lecompteestbon.Resolver;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        /*
         Scanner reader = new Scanner(System.in);
 
         System.out.println("Result to find ?");
@@ -18,10 +19,17 @@ public class Main {
         for (String number : numbersEntered.split(" "))
             numbers.add(Integer.parseInt(number));
 
-        List<String> operationsMade = Resolver.resolve(result, numbers);
+        List<String> operationsMade = Resolver.naiveResolve(result, numbers);
 
         for (String operationMade : operationsMade) {
             System.out.println(operationMade);
         }
+
+         */
+
+        int result = 663;
+        List<Integer> numbers = new ArrayList<>(Arrays.asList(50, 25, 3, 9, 4, 1));
+
+        Resolver.recursiveResolve(result, numbers);
     }
 }
