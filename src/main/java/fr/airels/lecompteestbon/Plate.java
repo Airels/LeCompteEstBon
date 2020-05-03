@@ -1,7 +1,6 @@
 package fr.airels.lecompteestbon;
 
 import fr.airels.lecompteestbon.exceptions.NonIntegerValueException;
-import fr.airels.lecompteestbon.exceptions.NonPositiveValueException;
 
 public class Plate {
     private int number1, number2;
@@ -15,20 +14,14 @@ public class Plate {
         return number1+number2;
     }
 
-    public int getSubstraction() throws NonPositiveValueException {
+    public int getSubstraction() {
         int result = number1 - number2;
 
-        if (result > 0) return number1-number2;
-
-        throw new NonPositiveValueException("Difference of operation isn't a positive value");
+        return (result < 0) ? reverseSubstraction() : result;
     }
 
-    public int getReverseSubstraction() throws NonPositiveValueException {
-        int result = number2 - number1;
-
-        if (result > 0) return number2-number1;
-
-        throw new NonPositiveValueException("Difference of operation isn't a positive value");
+    private int reverseSubstraction() {
+        return number2 - number1;
     }
 
     public int getMultiplication() {
@@ -38,10 +31,10 @@ public class Plate {
     public int getDivision() throws NonIntegerValueException {
         if (number1 % number2 == 0) return number1/number2;
 
-        throw new NonIntegerValueException("Quotient of operation isn't an Integer");
+        return reverseDivision();
     }
 
-    public int getReverseDivision() throws NonIntegerValueException {
+    private int reverseDivision() throws NonIntegerValueException {
         if (number2 % number1 == 0) return number2/number1;
 
         throw new NonIntegerValueException("Quotient of operation isn't an Integer");
