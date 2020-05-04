@@ -58,12 +58,13 @@ public class Resolver {
     }
 
     private static boolean auxRecursiveResolve(int result, List<Integer> numbers, List<String> steps) {
-        if (numbers.size() == 1) return false;
+        if (numbers.size() <= 1) return false;
 
-        List<Integer> initialNumbers = new ArrayList<>(numbers);
+        final List<Integer> initialNumbers = new ArrayList<>(numbers);
+        final int numbersSize = initialNumbers.size();
 
-        for (int i = 0; i < numbers.size()-1; i++) {
-            for (int j = i+1; j < numbers.size(); j++) {
+        for (int i = 0; i < numbersSize-1; i++) {
+            for (int j = i+1; j < numbersSize; j++, numbers = new ArrayList<>(initialNumbers)) {
                 List<Integer> copiedNumbers;
                 Couple couple = new Couple(numbers.get(i), numbers.get(j));
 
@@ -88,6 +89,7 @@ public class Resolver {
                     return true;
                 }
 
+                if (numbers.size() == 0) continue;
 
                 // Calculations
 
@@ -109,6 +111,8 @@ public class Resolver {
                     }
                 }
 
+                if (couple.getNumber1() == 1 || couple.getNumber2() == 1) continue;
+
                 // Multiplication
                 copiedNumbers = new ArrayList<>(numbers);
                 copiedNumbers.add(couple.getMultiplication());
@@ -126,8 +130,6 @@ public class Resolver {
                         return true;
                     }
                 }
-
-                numbers = initialNumbers;
             }
         }
 
@@ -146,22 +148,19 @@ public class Resolver {
                 steps.add(couple.getNumber1() + " + " + couple.getNumber2() + " = " + couple.getAddition());
                 break;
             case 1:
-                if (couple.getNumber1() > couple.getNumber2())
+                if (couple.getNumber1() >= couple.getNumber2())
                     steps.add(couple.getNumber1() + " - " + couple.getNumber2() + " = " + couple.getSubstraction());
 
                 steps.add(couple.getNumber2() + " - " + couple.getNumber1() + " = " + couple.getSubstraction());
                 break;
             case 2:
-                if (couple.getNumber1() != 1 && couple.getNumber2() != 1)
-                    steps.add(couple.getNumber1() + " x " + couple.getNumber2() + " = " + couple.getMultiplication());
+                steps.add(couple.getNumber1() + " x " + couple.getNumber2() + " = " + couple.getMultiplication());
                 break;
             case 3:
-                if (couple.getNumber1() != 1 && couple.getNumber2() != 1) {
-                    if (couple.getNumber1() > couple.getNumber2())
-                        steps.add(couple.getNumber1() + " / " + couple.getNumber2() + " = " + couple.getDivision());
+                if (couple.getNumber1() > couple.getNumber2())
+                    steps.add(couple.getNumber1() + " / " + couple.getNumber2() + " = " + couple.getDivision());
 
-                    steps.add(couple.getNumber2() + " / " + couple.getNumber1() + " = " + couple.getDivision());
-                }
+                steps.add(couple.getNumber2() + " / " + couple.getNumber1() + " = " + couple.getDivision());
                 break;
             default:
                 throw new RuntimeException("Unknown operation " + operation);
