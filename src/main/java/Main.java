@@ -6,7 +6,6 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-
         /*
             If you want to respect TV Show Rules:
                 - You must enter a result between 0-999
