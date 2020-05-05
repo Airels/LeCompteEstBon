@@ -58,7 +58,8 @@ public class Resolver {
         if (!auxRecursiveResolve(result, numbers, steps)) {
             auxRecursiveResolve(shortestResult, numbersCopy, steps);
             steps.add("Shortest result found: " + shortestResult);
-            steps.add("Unable to get " + result);
+        } else {
+            steps.add("Count is good!");
         }
 
         Collections.reverse(steps);
