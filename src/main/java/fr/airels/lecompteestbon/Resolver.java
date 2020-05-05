@@ -176,7 +176,7 @@ public class Resolver {
                 steps.add(couple.getNumber1() + " x " + couple.getNumber2() + " = " + couple.getMultiplication());
                 break;
             case 3:
-                steps.add(couple.getNumber2() + " / " + couple.getNumber1() + " = " + couple.getDivision());
+                steps.add(couple.getNumber1() + " / " + couple.getNumber2() + " = " + couple.getDivision());
                 break;
             default:
                 throw new RuntimeException("Unknown operation " + operation);
