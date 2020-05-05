@@ -12,8 +12,8 @@ public class Main {
                 - Only 6 numbers to use, which includes :
                     - 0-9 numbers, + 10, 25, 50, 75, 100 only
          */
-        int result = 678;
-        List<Integer> numbers = new ArrayList<>(Arrays.asList(50, 25, 1, 6, 7, 9));
+        int result = 763;
+        List<Integer> numbers = new ArrayList<>(Arrays.asList(25, 10, 1, 7, 10, 5));
 
         // List<String> operationsMade = Resolver.naiveResolve(result, numbers);
         List<String> operationsMade = Resolver.recursiveResolve(result, numbers);

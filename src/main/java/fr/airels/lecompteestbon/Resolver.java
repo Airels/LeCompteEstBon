@@ -1,6 +1,5 @@
 package fr.airels.lecompteestbon;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -50,9 +49,18 @@ public class Resolver {
     }
 
 
+    private static int shortestResult = 0;
+
     public static List<String> recursiveResolve(int result, List<Integer> numbers) {
         List<String> steps = new ArrayList<>();
-        if (!auxRecursiveResolve(result, numbers, steps)) steps.add("No result found");
+        List<Integer> numbersCopy = new ArrayList<>(numbers);
+
+        if (!auxRecursiveResolve(result, numbers, steps)) {
+            auxRecursiveResolve(shortestResult, numbersCopy, steps);
+            steps.add("Shortest result found: " + shortestResult);
+            steps.add("Unable to get " + result);
+        }
+
         Collections.reverse(steps);
         return steps;
     }
@@ -76,18 +84,28 @@ public class Resolver {
                     addStep(steps, couple, 0);
                     return true;
                 }
-                if (couple.getSubstraction() == result) {
+                else if (couple.getSubstraction() == result) {
                     addStep(steps, couple, 1);
                     return true;
                 }
-                if (couple.getMultiplication() == result) {
+                else if (couple.getMultiplication() == result) {
                     addStep(steps, couple, 2);
                     return true;
                 }
-                if (couple.isDivisible() && couple.getDivision() == result) {
+                else if (couple.isDivisible() && couple.getDivision() == result) {
                     addStep(steps, couple, 3);
                     return true;
+                } else {
+                    if (Math.abs(result - couple.getAddition()) < Math.abs(result - shortestResult))
+                        shortestResult = couple.getAddition();
+                    else if (Math.abs(result - couple.getSubstraction()) < Math.abs(result - shortestResult))
+                        shortestResult = couple.getSubstraction();
+                    else if (Math.abs(result - couple.getMultiplication()) < Math.abs(result - shortestResult))
+                        shortestResult = couple.getMultiplication();
+                    else if (couple.isDivisible() && (Math.abs(result - couple.getDivision()) < Math.abs(result - shortestResult)))
+                        shortestResult = couple.getDivision();
                 }
+
 
                 if (numbers.size() == 0) continue;
 
@@ -150,16 +168,13 @@ public class Resolver {
             case 1:
                 if (couple.getNumber1() >= couple.getNumber2())
                     steps.add(couple.getNumber1() + " - " + couple.getNumber2() + " = " + couple.getSubstraction());
-
-                steps.add(couple.getNumber2() + " - " + couple.getNumber1() + " = " + couple.getSubstraction());
+                else
+                    steps.add(couple.getNumber2() + " - " + couple.getNumber1() + " = " + couple.getSubstraction());
                 break;
             case 2:
                 steps.add(couple.getNumber1() + " x " + couple.getNumber2() + " = " + couple.getMultiplication());
                 break;
             case 3:
-                if (couple.getNumber1() > couple.getNumber2())
-                    steps.add(couple.getNumber1() + " / " + couple.getNumber2() + " = " + couple.getDivision());
-
                 steps.add(couple.getNumber2() + " / " + couple.getNumber1() + " = " + couple.getDivision());
                 break;
             default:
